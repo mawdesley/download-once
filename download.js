@@ -1,13 +1,13 @@
 const { promisify } = require("util");
 const exec = promisify(require("child_process").exec);
-const { writeFile, readFile } = require("fs").promises;
+const { promises: { writeFile, readFile },  existsSync } = require("fs");
 
 const [server, sourcePath] = process.argv[2].split(":");
 const destinationPath = process.argv[3];
 const ignoreFile = `${destinationPath}/ignore.txt`;
 
 const getIgnoreList = () => readFile(ignoreFile).then(ignoreList => ignoreList.toString().split("\n")).catch(() => []);
-const addToIgnoreList = file => writeFile(ignoreFile, `${file}\n`, {flag: "a"});
+const addToIgnoreList = file => writeFile(ignoreFile, `${file}\n`, { flag: "a" });
 const getFilesInSource = () => exec(`ssh ${server} find ${sourcePath} -not -type d`).then(({ stdout: files }) => files.toString().split("\n").filter(file => file.length));
 const getFilesToDownload = async () =>  {
     const [ignoreList, filesInSource] = await Promise.all([getIgnoreList(), getFilesInSource()]);
@@ -20,6 +20,10 @@ const download = file => exec(`scp ${server}:${file} ${translateToDestination(fi
 const downloadFiles = async files => {
     for (const file of files) {
         try {
+            if (existsSync(translateToDestination(file))) {
+                continue;
+            }
+            
             console.log(file);
             await createDestinationFolder(file);
             await download(file);
