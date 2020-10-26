@@ -1,0 +1,24 @@
+{
+  "name": "download-once",
+  "version": "1.0.0",
+  "description": "Downloads the contents of a folder once, and only once",
+  "main": "download.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mawdesley/download-once.git"
+  },
+  "keywords": [
+    "download",
+    "sync",
+    "folder"
+  ],
+  "author": "mawdesley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mawdesley/download-once/issues"
+  },
+  "homepage": "https://github.com/mawdesley/download-once#readme"
+}
