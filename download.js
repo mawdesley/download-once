@@ -4,7 +4,7 @@ const { promises: { writeFile, readFile },  existsSync } = require("fs");
 
 const [server, sourcePath] = process.argv[2].split(":");
 const destinationPath = process.argv[3];
-const ignoreFile = `${destinationPath}/ignore.txt`;
+const ignoreFile = `${destinationPath}/.download-once-ignore`;
 
 const getIgnoreList = () => readFile(ignoreFile).then(ignoreList => ignoreList.toString().split("\n")).catch(() => []);
 const addToIgnoreList = file => writeFile(ignoreFile, `${file}\n`, { flag: "a" });
