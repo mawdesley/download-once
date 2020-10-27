@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/mawdesley/download-once/issues"
   },
-  "homepage": "https://github.com/mawdesley/download-once#readme"
+  "homepage": "https://github.com/mawdesley/download-once#readme",
+  "dependencies": {
+    "escape-path-with-spaces": "^1.0.0"
+  }
 }
