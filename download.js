@@ -1,11 +1,15 @@
 const { promisify } = require("util");
 const exec = promisify(require("child_process").exec);
 const { promises: { writeFile, readFile },  existsSync } = require("fs");
-const escape = require("escape-path-with-spaces")
+const escapeSpaces = require("escape-path-with-spaces")
 
 const [server, sourcePath] = process.argv[2].split(":");
 const destinationPath = process.argv[3];
 const ignoreFile = `${destinationPath}/.download-once-ignore`;
+
+const escape = file => escapeSpaces(file)
+                        .replace(/\(/g, "\\(")
+                        .replace(/\)/g, "\\)")
 
 const getIgnoreList = () => readFile(ignoreFile).then(ignoreList => ignoreList.toString().split("\n")).catch(() => []);
 const addToIgnoreList = file => writeFile(ignoreFile, `${file}\n`, { flag: "a" });
